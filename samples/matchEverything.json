@@ -1,0 +1,10 @@
+{
+  "handlers": {
+    "on-anything": {
+      "response": {
+        "status": 200,
+        "body": "Everything is going to be 200 OK"
+      }
+    }
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "handlers": {
+    "on-get-user-1": {
+      "maxMatches": 1,
+      "request": {
+        "method": "GET",
+        "url": "/users/:id"
+      },
+      "response": {
+        "status": 404
+      }
+    },
+    "on-get-user-2": {
+      "maxMatches": 1,
+      "request": {
+        "method": "GET",
+        "url": "/users/:id"
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "username": "colincoller"
+        }
+      }
+    },
+    "on-get-user-3": {
+      "request": {
+        "method": "GET",
+        "url": "/users/:id"
+      },
+      "response": {
+        "status": 404
+      }
+    }
+  }
+}

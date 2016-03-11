@@ -1,0 +1,31 @@
+{
+  "handlers": {
+    "on-get-user-1": {
+      "maxMatches": 1,
+      "request": {
+        "method": "GET",
+        "url": "/users/:id"
+      },
+      "response": {
+        "delay": 3000,
+        "status": 200,
+        "body": {
+          "username": "The caller should have timed out in less than 3 seconds and so should never see this."
+        }
+      }
+    },
+    "on-get-user-2": {
+      "maxMatches": 1,
+      "request": {
+        "method": "GET",
+        "url": "/users/:id"
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "username": "colincoller"
+        }
+      }
+    }
+  }
+}

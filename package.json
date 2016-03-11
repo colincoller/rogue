@@ -1,0 +1,46 @@
+{
+  "version": "1.0.0",
+  "name": "rogue-webhooks",
+  "scripts": {
+    "watch-start": "nodemon -x npm start",
+    "pretest": "standard && echint",
+    "watch-test": "nodemon -x npm test",
+    "test": "mocha --recursive",
+    "coverage": "istanbul cover --dir coverage _mocha -- --recursive --fgrep 'Request Validation' --invert --reporter dot",
+    "codeclimate": "codeclimate-test-reporter < coverage/lcov.info"
+  },
+  "config": {
+    "persistence": "memory",
+    "httpPort": 8080,
+    "https": false,
+    "httpsPort": 8443,
+    "httpsCert": "",
+    "httpsKey": "",
+    "logFormat": null,
+    "username": null,
+    "password": null
+  },
+  "devDependencies": {
+    "standard": "^6.0.7",
+    "echint": "^1.5.3",
+    "mocha": "^2.4.5",
+    "istanbul": "^0.4.2",
+    "nodemon": "^1.9.1",
+    "unirest": "^0.4.2",
+    "codeclimate-test-reporter": "^0.3.1"
+  },
+  "dependencies": {
+    "async": "^1.5.2",
+    "basic-auth": "^1.0.3",
+    "body-parser": "^1.15.0",
+    "compression": "^1.6.1",
+    "dotenv": "^2.0.0",
+    "express": "^4.13.4",
+    "method-override": "^2.3.5",
+    "morgan": "^1.7.0",
+    "node-uuid": "^1.4.7",
+    "require-directory": "^2.1.1",
+    "should": "^8.2.2",
+    "url-pattern": "^1.0.1"
+  }
+}

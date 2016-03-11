@@ -1,0 +1,38 @@
+{
+  "handlers": {
+    "on-create-user": {
+      "request": {
+        "method": "POST",
+        "url": "/users"
+      },
+      "response": {
+        "status": 201,
+        "headers": {
+          "Location": "/users/123"
+        },
+        "body": "/users/123"
+      }
+    },
+    "on-get-user": {
+      "request": {
+        "method": "GET",
+        "url": "/users/:id"
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "username": "colincoller"
+        }
+      }
+    },
+    "on-delete-user": {
+      "request": {
+        "method": "DELETE",
+        "url": "/users/:id"
+      },
+      "response": {
+        "status": 204
+      }
+    }
+  }
+}

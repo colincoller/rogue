@@ -11,7 +11,7 @@
   },
   "config": {
     "persistence": "memory",
-    "httpPort": 8080,
+    "httpPort": 5000,
     "https": false,
     "httpsPort": 8443,
     "httpsCert": "",

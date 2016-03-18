@@ -31,7 +31,7 @@ npm test
 
 Rogue stores its configuration settings in `package.json`'s `config` property.
 
-By default, Rogue is configured to listen for HTTP traffic on port 8080.  To change the HTTP port, edt `package.json` and set `httpPort` appropriately.
+By default, Rogue is configured to listen for HTTP traffic on port 5000.  To change the HTTP port, edt `package.json` and set `httpPort` appropriately.
 
 Other configuration settings are described below.  Most configuration is done through Rogue's API when the service is running.
 

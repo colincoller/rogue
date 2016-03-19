@@ -8,7 +8,8 @@ module.exports = function (api) {
         res.json(apps.map(function (app) {
           return {
             id: app.id,
-            url: '/apps/' + app.id
+            url: '/apps/' + app.id,
+            created: app.created
           }
         }))
       }

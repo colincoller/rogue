@@ -10,7 +10,10 @@ var testPersistence = function (persistenceType) {
 
   describe('persistence: ' + persistenceType + ': createApp', function () {
     it('should create an app', function (done) {
-      var oldApp = {id: uuid.v4()}
+      var oldApp = {
+        id: uuid.v4(),
+        created: new Date().toISOString()
+      }
 
       var persistence = new Persistence()
 
@@ -25,7 +28,10 @@ var testPersistence = function (persistenceType) {
     })
 
     it('should return error if the app already exists', function (done) {
-      var app = {id: uuid.v4()}
+      var app = {
+        id: uuid.v4(),
+        created: new Date().toISOString()
+      }
 
       var persistence = new Persistence()
 
@@ -42,8 +48,14 @@ var testPersistence = function (persistenceType) {
 
   describe('persistence: ' + persistenceType + ': listApps', function () {
     it('should list apps', function (done) {
-      var oldApp1 = {id: uuid.v4()}
-      var oldApp2 = {id: uuid.v4()}
+      var oldApp1 = {
+        id: uuid.v4(),
+        created: new Date().toISOString()
+      }
+      var oldApp2 = {
+        id: uuid.v4(),
+        created: new Date().toISOString()
+      }
 
       var persistence = new Persistence()
 
@@ -67,7 +79,10 @@ var testPersistence = function (persistenceType) {
   describe('persistence: ' + persistenceType + ': retrieveApp', function () {
     it('should retrieve an app', function (done) {
       var appId = uuid.v4()
-      var oldApp = {id: appId}
+      var oldApp = {
+        id: appId,
+        created: new Date().toISOString()
+      }
 
       var persistence = new Persistence()
 
@@ -97,7 +112,10 @@ var testPersistence = function (persistenceType) {
   describe('persistence: ' + persistenceType + ': deleteApp', function () {
     it('should delete an app', function (done) {
       var appId = uuid.v4()
-      var app = {id: appId}
+      var app = {
+        id: appId,
+        created: new Date().toISOString()
+      }
 
       var persistence = new Persistence()
 
@@ -118,7 +136,10 @@ var testPersistence = function (persistenceType) {
     })
 
     it('should return error if the app does not exist', function (done) {
-      var app = {id: uuid.v4()}
+      var app = {
+        id: uuid.v4(),
+        created: new Date().toISOString()
+      }
 
       var persistence = new Persistence()
 
@@ -130,7 +151,10 @@ var testPersistence = function (persistenceType) {
     })
 
     it('should return error if the app is deleted twice', function (done) {
-      var app = {id: uuid.v4()}
+      var app = {
+        id: uuid.v4(),
+        created: new Date().toISOString()
+      }
 
       var persistence = new Persistence()
 
@@ -150,8 +174,13 @@ var testPersistence = function (persistenceType) {
 
   describe('persistence: ' + persistenceType + ': createHandler', function () {
     it('should create a handler', function (done) {
-      var app = {id: uuid.v4()}
-      var handler = {id: uuid.v4()}
+      var app = {
+        id: uuid.v4(),
+        created: new Date().toISOString()
+      }
+      var handler = {
+        id: uuid.v4()
+      }
 
       var persistence = new Persistence()
 
@@ -169,7 +198,10 @@ var testPersistence = function (persistenceType) {
     })
 
     it('should return error if the app does not exist', function (done) {
-      var app = {id: uuid.v4()}
+      var app = {
+        id: uuid.v4(),
+        created: new Date().toISOString()
+      }
       var handler = {id: uuid.v4()}
 
       var persistence = new Persistence()
@@ -183,7 +215,8 @@ var testPersistence = function (persistenceType) {
 
     it('should return error if the handler already exists', function (done) {
       var app = {
-        id: uuid.v4()
+        id: uuid.v4(),
+        created: new Date().toISOString()
       }
       var handler = {
         id: uuid.v4()
@@ -206,7 +239,10 @@ var testPersistence = function (persistenceType) {
 
   describe('persistence: ' + persistenceType + ': retrieveHandler', function () {
     it('should retrieve a handler', function (done) {
-      var app = {id: uuid.v4()}
+      var app = {
+        id: uuid.v4(),
+        created: new Date().toISOString()
+      }
       var handlerId = uuid.v4()
       var oldHandler = {id: handlerId}
 
@@ -239,7 +275,10 @@ var testPersistence = function (persistenceType) {
     })
 
     it('should return error if the handler does not exist', function (done) {
-      var app = {id: uuid.v4()}
+      var app = {
+        id: uuid.v4(),
+        created: new Date().toISOString()
+      }
       var handlerId = uuid.v4()
 
       var persistence = new Persistence()

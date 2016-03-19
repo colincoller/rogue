@@ -6,7 +6,8 @@ module.exports = function (api) {
       } else {
         res.json({
           id: app.id,
-          url: '/apps/' + app.id
+          url: '/apps/' + app.id,
+          created: app.created
         })
       }
     })

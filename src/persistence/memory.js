@@ -11,9 +11,10 @@ module.exports = function (options) {
         return callback(new Error('App ' + app.id + ' already exists.'))
       }
       this.apps[app.id] = {
-        'id': app.id,
-        'handlers': {},
-        'logs': []
+        id: app.id,
+        created: app.created,
+        handlers: {},
+        logs: []
       }
       callback(null)
     },
@@ -25,7 +26,8 @@ module.exports = function (options) {
       Object.keys(this.apps).forEach(function (appKey) {
         var appValue = this.apps[appKey]
         result.unshift({
-          id: appValue.id
+          id: appValue.id,
+          created: appValue.created
         })
       }, this)
 
@@ -39,7 +41,8 @@ module.exports = function (options) {
         return callback(new Error('App ' + appId + ' does not exist.'), null)
       }
       callback(null, {
-        id: app.id
+        id: app.id,
+        created: app.created
       })
     },
 
@@ -53,7 +56,7 @@ module.exports = function (options) {
       callback(null)
     },
 
-    // POST /apps/:app_id/handlers
+    // This isn't exposed through the API.
     createHandler: function (appId, handler, callback) {
       var app = this.apps[appId]
       if (!app) {
@@ -75,7 +78,7 @@ module.exports = function (options) {
       callback(null, app.handlers)
     },
 
-    // GET /apps/:app_id/handlers/:handler_id
+    // This isn't exposed through the API.
     retrieveHandler: function (appId, handlerId, callback) {
       var app = this.apps[appId]
       if (!app) {

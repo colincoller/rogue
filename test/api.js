@@ -40,13 +40,20 @@ var createApp = function (app, callback) {
     res.headers.should.have.property('content-type').and.equal('application/json; charset=utf-8')
     res.headers.should.have.property('location').and.equal(res.body)
 
-    var appurl = res.body
-    appurl.split('/').length.should.equal(3)
-    var appId = appurl.split('/')[2]
+    var appUrl = res.body
+    appUrl.split('/').length.should.equal(3)
+    var appId = appUrl.split('/')[2]
 
-    callback({
-      id: appId,
-      url: appurl
+    req = unirest.get(baseUrl + appUrl)
+    req.auth(options.username, options.password, true)
+    req.end(function (res) {
+      res.status.should.equal(200)
+      res.headers.should.have.property('content-type').and.equal('application/json; charset=utf-8')
+      res.body.should.have.property('id').and.equal(appId)
+      res.body.should.have.property('url').and.equal(appUrl)
+      res.body.should.have.property('created').and.not.be.empty() // FIXME: be a valid date pretty close to now
+
+      callback(res.body)
     })
   })
 }
@@ -54,6 +61,7 @@ var createApp = function (app, callback) {
 var assertAppEquality = function (expected, actual) {
   actual.should.have.property('id').and.equal(expected.id)
   actual.should.have.property('url').and.equal(expected.url)
+  actual.should.have.property('created').and.equal(expected.created)
 }
 
 describe('api: GET /options', function () {
@@ -95,6 +103,7 @@ describe('api: POST /apps', function () {
         res.headers.should.have.property('content-type').and.equal('application/json; charset=utf-8')
         res.body.should.have.property('id').and.equal(app.id)
         res.body.should.have.property('url').and.equal(app.url)
+        res.body.should.have.property('created').and.equal(app.created)
         done()
       })
     })

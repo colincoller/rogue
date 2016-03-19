@@ -38,6 +38,7 @@ module.exports = function (options, persistence) {
       var auth = new Auth(options)
 
       app.get('/options', auth, routes.options.retrieve(this))
+      app.get('/apps', auth, routes.apps.list(this))
       app.post('/apps', auth, routes.apps.create(this))
       app.get('/apps/:app_id', auth, routes.apps.retrieve(this))
       app.get('/apps/:app_id/logs', auth, routes.apps.logs.list(this))

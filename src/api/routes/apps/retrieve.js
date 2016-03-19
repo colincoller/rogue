@@ -4,8 +4,10 @@ module.exports = function (api) {
       if (err) {
         api.sendNotFound(res, err)
       } else {
-        app.url = '/apps/' + app.id
-        res.json(app)
+        res.json({
+          id: app.id,
+          url: '/apps/' + app.id
+        })
       }
     })
   }

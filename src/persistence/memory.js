@@ -18,6 +18,20 @@ module.exports = function (options) {
       callback(null)
     },
 
+    // GET /apps
+    listApps: function (callback) {
+      var result = []
+
+      Object.keys(this.apps).forEach(function (appKey) {
+        var appValue = this.apps[appKey]
+        result.unshift({
+          id: appValue.id
+        })
+      }, this)
+
+      callback(null, result)
+    },
+
     // GET /apps/:app_id
     retrieveApp: function (appId, callback) {
       var app = this.apps[appId]
@@ -25,7 +39,7 @@ module.exports = function (options) {
         return callback(new Error('App ' + appId + ' does not exist.'), null)
       }
       callback(null, {
-        'id': app.id
+        id: app.id
       })
     },
 

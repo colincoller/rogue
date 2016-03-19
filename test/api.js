@@ -51,6 +51,11 @@ var createApp = function (app, callback) {
   })
 }
 
+var assertAppEquality = function (expected, actual) {
+  actual.should.have.property('id').and.equal(expected.id)
+  actual.should.have.property('url').and.equal(expected.url)
+}
+
 describe('api: GET /options', function () {
   it('should require authentication', function (done) {
     var req = unirest.get(baseUrl + '/options')
@@ -111,6 +116,34 @@ describe('api: POST /apps', function () {
   // TODO: validation
 })
 
+describe('api: GET /apps', function () {
+  it('should require authentication', function (done) {
+    var req = unirest.get(baseUrl + '/apps')
+    req.end(function (res) {
+      res.status.should.equal(401)
+      done()
+    })
+  })
+
+  it('should retrieve apps', function (done) {
+    createApp(samples.multipleHandlers, function (app1) {
+      createApp(samples.multipleHandlers, function (app2) {
+        var req = unirest.get(baseUrl + '/apps')
+        req.auth(options.username, options.password, true)
+        req.end(function (res) {
+          res.status.should.equal(200)
+          res.headers.should.have.property('content-type').and.equal('application/json; charset=utf-8')
+          res.body.should.be.instanceof(Array).and.not.be.empty()
+          res.body.length.should.be.aboveOrEqual(2)
+          assertAppEquality(app2, res.body[0])
+          assertAppEquality(app1, res.body[1])
+          done()
+        })
+      })
+    })
+  })
+})
+
 describe('api: GET /apps/:app_id', function () {
   it('should require authentication', function (done) {
     var req = unirest.get(baseUrl + '/apps/7aad7049-f4d0-41ee-9a14-0a03b0b97016')
@@ -127,8 +160,7 @@ describe('api: GET /apps/:app_id', function () {
       req.end(function (res) {
         res.status.should.equal(200)
         res.headers.should.have.property('content-type').and.equal('application/json; charset=utf-8')
-        res.body.should.have.property('id').and.equal(app.id)
-        res.body.should.have.property('url').and.equal(app.url)
+        assertAppEquality(app, res.body)
         done()
       })
     })

@@ -10,16 +10,15 @@ var testPersistence = function (persistenceType) {
 
   describe('persistence: ' + persistenceType + ': createApp', function () {
     it('should create an app', function (done) {
-      var appId = uuid.v4()
-      var app = {id: appId}
+      var oldApp = {id: uuid.v4()}
 
       var persistence = new Persistence()
 
-      persistence.createApp(app, function (err) {
+      persistence.createApp(oldApp, function (err) {
         should.not.exist(err)
-        app = persistence.retrieveApp(appId, function (err, app) {
+        persistence.retrieveApp(oldApp.id, function (err, newApp) {
           should.not.exist(err)
-          should.exist(app)
+          should.exist(newApp)
           done()
         })
       })
@@ -36,6 +35,30 @@ var testPersistence = function (persistenceType) {
           should.exist(err)
           // TODO: properties of err
           done()
+        })
+      })
+    })
+  })
+
+  describe('persistence: ' + persistenceType + ': listApps', function () {
+    it('should list apps', function (done) {
+      var oldApp1 = {id: uuid.v4()}
+      var oldApp2 = {id: uuid.v4()}
+
+      var persistence = new Persistence()
+
+      persistence.createApp(oldApp1, function (err) {
+        should.not.exist(err)
+        persistence.createApp(oldApp2, function (err) {
+          should.not.exist(err)
+          persistence.listApps(function (err, apps) {
+            should.not.exist(err)
+            apps.should.be.instanceof(Array).and.not.be.empty()
+            apps.length.should.be.aboveOrEqual(2)
+            assert.deepEqual(oldApp2, apps[0])
+            assert.deepEqual(oldApp1, apps[1])
+            done()
+          })
         })
       })
     })
@@ -139,7 +162,6 @@ var testPersistence = function (persistenceType) {
           persistence.retrieveHandler(app.id, handler.id, function (err, handler) {
             should.not.exist(err)
             should.exist(handler)
-            // TODO: properties of err
             done()
           })
         })

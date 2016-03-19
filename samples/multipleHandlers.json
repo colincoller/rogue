@@ -1,6 +1,7 @@
 {
-  "handlers": {
-    "on-create-user": {
+  "handlers": [
+    {
+      "id": "on-create-user",
       "request": {
         "method": "POST",
         "url": "/users"
@@ -13,7 +14,8 @@
         "body": "/users/123"
       }
     },
-    "on-get-user": {
+    {
+      "id": "on-get-user",
       "request": {
         "method": "GET",
         "url": "/users/:id"
@@ -25,7 +27,8 @@
         }
       }
     },
-    "on-delete-user": {
+    {
+      "id": "on-delete-user",
       "request": {
         "method": "DELETE",
         "url": "/users/:id"
@@ -34,5 +37,5 @@
         "status": 204
       }
     }
-  }
+  ]
 }

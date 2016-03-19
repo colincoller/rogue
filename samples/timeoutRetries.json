@@ -1,6 +1,7 @@
 {
-  "handlers": {
-    "on-get-user-1": {
+  "handlers": [
+    {
+      "id": "on-get-user-1",
       "maxMatches": 1,
       "request": {
         "method": "GET",
@@ -14,7 +15,8 @@
         }
       }
     },
-    "on-get-user-2": {
+    {
+      "id": "on-get-user-2",
       "maxMatches": 1,
       "request": {
         "method": "GET",
@@ -27,5 +29,5 @@
         }
       }
     }
-  }
+  ]
 }

@@ -1,6 +1,7 @@
 {
-  "handlers": {
-    "on-get-user-1": {
+  "handlers": [
+    {
+      "id": "on-get-user-1",
       "maxMatches": 1,
       "request": {
         "method": "GET",
@@ -10,7 +11,8 @@
         "status": 404
       }
     },
-    "on-get-user-2": {
+    {
+      "id": "on-get-user-2",
       "maxMatches": 1,
       "request": {
         "method": "GET",
@@ -23,7 +25,8 @@
         }
       }
     },
-    "on-get-user-3": {
+    {
+      "id": "on-get-user-3",
       "request": {
         "method": "GET",
         "url": "/users/:id"
@@ -32,5 +35,5 @@
         "status": 404
       }
     }
-  }
+  ]
 }

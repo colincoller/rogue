@@ -16,13 +16,12 @@ module.exports = function (api) {
             var handler = null
             var relativeUrl = null
 
-            async.each(Object.keys(handlers), function (handlerId, callback) {
+            async.each(handlers, function (candidateHandler, callback) {
               if (handler) {
                 callback(null)
                 return
               }
 
-              var candidateHandler = handlers[handlerId]
               var candidateMatches = {}
 
               if (

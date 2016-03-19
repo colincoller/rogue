@@ -94,8 +94,23 @@ describe('api: POST /apps', function () {
     })
   })
 
-  it('should create an app', function (done) {
-    createApp(samples.multipleHandlers, function (app) {
+  it('should create an app (handlers array)', function (done) {
+    createApp(samples.matchEverything, function (app) {
+      var req = unirest.get(baseUrl + app.url)
+      req.auth(options.username, options.password, true)
+      req.end(function (res) {
+        res.status.should.equal(200)
+        res.headers.should.have.property('content-type').and.equal('application/json; charset=utf-8')
+        res.body.should.have.property('id').and.equal(app.id)
+        res.body.should.have.property('url').and.equal(app.url)
+        res.body.should.have.property('created').and.equal(app.created)
+        done()
+      })
+    })
+  })
+
+  it('should create an app (handlers object)', function (done) {
+    createApp(samples.matchEverythingHandlersObject, function (app) {
       var req = unirest.get(baseUrl + app.url)
       req.auth(options.username, options.password, true)
       req.end(function (res) {
@@ -306,7 +321,7 @@ describe('api: * /apps/:app_id/test/*', function () {
     })
   })
 
-  it('should be able to match everything', function (done) {
+  it('should be able to match everything (handlers array)', function (done) {
     createApp(samples.matchEverything, function (app) {
       makeRequest(app, {method: 'POST', url: '/users', body: {username: 'colincoller'}}, function (res1) {
         res1.status.should.equal(200)
@@ -327,8 +342,55 @@ describe('api: * /apps/:app_id/test/*', function () {
     })
   })
 
-  it('should honor maxMatches', function (done) {
+  it('should be able to match everything (handlers object)', function (done) {
+    createApp(samples.matchEverythingHandlersObject, function (app) {
+      makeRequest(app, {method: 'POST', url: '/users', body: {username: 'colincoller'}}, function (res1) {
+        res1.status.should.equal(200)
+        makeRequest(app, {method: 'GET', url: '/users/123'}, function (res2) {
+          res2.status.should.equal(200)
+          var req = unirest.get(baseUrl + app.url + '/logs')
+          req.auth(options.username, options.password, true)
+          req.end(function (res) {
+            res.status.should.equal(200)
+            res.headers.should.have.property('content-type').and.equal('application/json; charset=utf-8')
+            res.body.should.be.instanceof(Array).and.not.be.empty()
+            res.body.length.should.equal(2)
+            // TODO: ensure the log entries are valid
+            done()
+          })
+        })
+      })
+    })
+  })
+
+  it('should honor maxMatches (handlers array)', function (done) {
     createApp(samples.errorRetries, function (app) {
+      makeRequest(app, {method: 'GET', url: '/users/123'}, function (res1) {
+        res1.status.should.equal(500)
+        makeRequest(app, {method: 'GET', url: '/users/123'}, function (res2) {
+          res2.status.should.equal(200)
+          var req = unirest.get(baseUrl + app.url + '/logs')
+          req.auth(options.username, options.password, true)
+          req.end(function (res) {
+            res.status.should.equal(200)
+            res.headers.should.have.property('content-type').and.equal('application/json; charset=utf-8')
+            res.body.should.be.instanceof(Array).and.not.be.empty()
+            res.body.length.should.equal(2)
+
+            // Both requests should have matched on-get-user-1, but it has maxMatches = 1, so the
+            // first request matched on-get-user-1 and the second request matched on-get-user-2.
+            res.body[0].handler.should.equal('on-get-user-1')
+            res.body[1].handler.should.equal('on-get-user-2')
+
+            done()
+          })
+        })
+      })
+    })
+  })
+
+  it('should honor maxMatches (handlers object)', function (done) {
+    createApp(samples.errorRetriesHandlersObject, function (app) {
       makeRequest(app, {method: 'GET', url: '/users/123'}, function (res1) {
         res1.status.should.equal(500)
         makeRequest(app, {method: 'GET', url: '/users/123'}, function (res2) {

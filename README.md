@@ -31,7 +31,7 @@ npm test
 
 Rogue stores its configuration settings in `package.json`'s `config` property.
 
-By default, Rogue is configured to listen for HTTP traffic on port 5000.  To change the HTTP port, edt `package.json` and set `httpPort` appropriately.
+By default, Rogue is configured to listen for HTTP traffic on port 5000.  To change the HTTP port, edit `package.json` and set `httpPort` appropriately.
 
 Other configuration settings are described below.  Most configuration is done through Rogue's API when the service is running.
 
@@ -49,8 +49,9 @@ Rogue lets your tests create *apps* made up of *handlers* that match *requests* 
 
 ```
 {
-  "handlers": {
-    "on-create-user": {
+  "handlers": [
+    {
+      "id": "on-create-user",
       "request": {
         "method": "POST",
         "url": "/users"
@@ -63,7 +64,7 @@ Rogue lets your tests create *apps* made up of *handlers* that match *requests* 
         "body": "/users/123"
       }
     }
-  }
+  ]
 }
 ```
 
@@ -167,8 +168,9 @@ Handlers can match requests on protocol, method, URL, parameters, and headers:
 
 ```JSON
 {
-  "handlers": {
-    "on-get-user": {
+  "handlers": [
+    {
+      "id": "on-get-user",
       "request": {
         "protocol": "https",
         "method": "GET",
@@ -181,14 +183,15 @@ Each of these request properties is optional.  If you don't supply a request pro
 
 ```JSON
 {
-  "handlers": {
-    "on-anything": {
+  "handlers": [
+    {
+      "id": "on-anything",
       "response": {
         "status": 200,
         "body": "Everything is going to be 200 OK"
       }
     }
-  }
+  ]
 }
 ```
 
@@ -197,8 +200,9 @@ When a handler matches a request, the handler will send a response.  The respons
 
 ```JSON
 {
-  "handlers": {
-    "on-create-user": {
+  "handlers": [
+    {
+      "id": "on-create-user",
       "response": {
         "status": 201,
         "headers": {
@@ -218,8 +222,9 @@ Apps can have multiple handlers matching different requests and sending differen
 
 ```JSON
 {
-  "handlers": {
-    "on-create-user": {
+  "handlers": [
+    {
+      "id": "on-create-user",
       "request": {
         "method": "POST",
         "url": "/users"
@@ -232,7 +237,8 @@ Apps can have multiple handlers matching different requests and sending differen
         "body": "/users/123"
       }
     },
-    "on-get-user": {
+    {
+      "id": "on-get-user",
       "request": {
         "method": "GET",
         "url": "/users/:id"
@@ -244,7 +250,8 @@ Apps can have multiple handlers matching different requests and sending differen
         }
       }
     },
-    "on-delete-user": {
+    {
+      "id": "on-delete-user",
       "request": {
         "method": "DELETE",
         "url": "/users/:id"
@@ -253,7 +260,7 @@ Apps can have multiple handlers matching different requests and sending differen
         "status": 204
       }
     }
-  }
+  ]
 }
 ```
 
@@ -262,8 +269,9 @@ Handlers can delay responses by an arbitrary amount of time by setting the `dela
 
 ```JSON
 {
-  "handlers": {
-    "on-get-user-1": {
+  "handlers": [
+    {
+      "id": "on-get-user-1",
       "response": {
         "delay": 3000
 ```
@@ -275,8 +283,9 @@ Handlers can match requests a maximum number of times before falling through to 
 
 ```JSON
 {
-  "handlers": {
-    "on-get-user-1": {
+  "handlers": [
+    {
+      "id": "on-get-user-1",
       "maxMatches": 1
 ```
 
@@ -287,8 +296,9 @@ This is useful when testing retries due to errors.  For example, [errorRetries.j
 
 ```JSON
 {
-  "handlers": {
-    "on-get-user-1": {
+  "handlers": [
+    {
+      "id": "on-get-user-1",
       "maxMatches": 1,
       "request": {
         "method": "GET",
@@ -298,7 +308,8 @@ This is useful when testing retries due to errors.  For example, [errorRetries.j
         "status": 500
       }
     },
-    "on-get-user-2": {
+    {
+      "id": "on-get-user-2",
       "maxMatches": 1,
       "request": {
         "method": "GET",
@@ -311,7 +322,7 @@ This is useful when testing retries due to errors.  For example, [errorRetries.j
         }
       }
     }
-  }
+  ]
 }
 ```
 
@@ -322,8 +333,9 @@ This is also useful when testing retries due to timeouts.  For example, [timeout
 
 ```JSON
 {
-  "handlers": {
-    "on-get-user-1": {
+  "handlers": [
+    {
+      "id": "on-get-user-1",
       "maxMatches": 1,
       "request": {
         "method": "GET",
@@ -337,7 +349,8 @@ This is also useful when testing retries due to timeouts.  For example, [timeout
         }
       }
     },
-    "on-get-user-2": {
+    {
+      "id": "on-get-user-2",
       "maxMatches": 1,
       "request": {
         "method": "GET",
@@ -350,7 +363,7 @@ This is also useful when testing retries due to timeouts.  For example, [timeout
         }
       }
     }
-  }
+  ]
 }
 ```
 
@@ -362,8 +375,9 @@ This is _also_ useful when testing complex sequences of webhook calls where the 
 
 ```JSON
 {
-  "handlers": {
-    "on-get-user-1": {
+  "handlers": [
+    {
+      "id": "on-get-user-1",
       "maxMatches": 1,
       "request": {
         "method": "GET",
@@ -373,7 +387,8 @@ This is _also_ useful when testing complex sequences of webhook calls where the 
         "status": 404
       }
     },
-    "on-get-user-2": {
+    {
+      "id": "on-get-user-2",
       "maxMatches": 1,
       "request": {
         "method": "GET",
@@ -386,7 +401,8 @@ This is _also_ useful when testing complex sequences of webhook calls where the 
         }
       }
     },
-    "on-get-user-3": {
+    {
+      "id": "on-get-user-3",
       "request": {
         "method": "GET",
         "url": "/users/:id"
@@ -395,12 +411,12 @@ This is _also_ useful when testing complex sequences of webhook calls where the 
         "status": 404
       }
     }
-  }
+  ]
 }
 ```
 
 ### Per-app logging
-Rogue logs all requests to an app.  Each log entry includes the date the request was received, key request properties, the name of the handler that matched the request, and key response properties.  
+Rogue logs all requests to an app.  Each log entry includes the date the request was received, key request properties, the identifier of the handler that matched the request, and key response properties.  
 
 ```JSON
 [

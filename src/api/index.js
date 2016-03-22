@@ -42,6 +42,7 @@ module.exports = function (options, persistence) {
       app.post('/apps', auth, routes.apps.create(this))
       app.get('/apps/:app_id', auth, routes.apps.retrieve(this))
       app.get('/apps/:app_id/logs', auth, routes.apps.logs.list(this))
+      app.delete('/apps/:app_id/logs', auth, routes.apps.logs.delete(this))
       app.delete('/apps/:app_id', auth, routes.apps.delete(this))
 
       app.all('/apps/:app_id/test/*', routes.apps.test.invoke(this)) // doesn't require auth

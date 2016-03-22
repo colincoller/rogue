@@ -5,13 +5,15 @@ module.exports = function (api) {
         console.log(err)
         api.sendServerError(res, err)
       } else {
-        res.json(apps.map(function (app) {
-          return {
-            id: app.id,
-            url: '/apps/' + app.id,
-            created: app.created
-          }
-        }))
+        res.json({
+          'data': apps.map(function (app) {
+            return {
+              id: app.id,
+              url: '/apps/' + app.id,
+              created: app.created
+            }
+          })
+        })
       }
     })
   }

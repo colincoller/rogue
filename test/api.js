@@ -453,3 +453,44 @@ describe('api: * /apps/:app_id/test/*', function () {
     })
   })
 })
+describe('api: DELETE /apps/:app_id/logs', function () {
+  it('should require authentication', function (done) {
+    var req = unirest.get(baseUrl + '/apps/7aad7049-f4d0-41ee-9a14-0a03b0b97016/logs')
+    req.end(function (res) {
+      res.status.should.equal(401)
+      done()
+    })
+  })
+
+  it('should delete log entries and get an empty array of log entries afterwards', function (done) {
+    createApp(samples.multipleHandlers, function (app) {
+      makeRequest(app, {method: 'POST', url: '/users', body: {username: 'robertomontebelli'}}, function (res1) {
+        res1.status.should.equal(201)
+        makeRequest(app, {method: 'GET', url: '/users/123'}, function (res2) {
+          res2.status.should.equal(200)
+          var req = unirest.get(baseUrl + app.url + '/logs')
+          req.auth(options.username, options.password, true)
+          req.end(function (res) {
+            res.status.should.equal(200)
+            res.headers.should.have.property('content-type').and.equal('application/json; charset=utf-8')
+            res.body.should.be.instanceof(Array).and.not.be.empty()
+            res.body.length.should.equal(2)
+            var req = unirest.delete(baseUrl + app.url + '/logs')
+            req.auth(options.username, options.password, true)
+            req.end(function (res) {
+              res.status.should.equal(204)
+              var req = unirest.get(baseUrl + app.url + '/logs')
+              req.auth(options.username, options.password, true)
+              req.end(function (res) {
+                res.headers.should.have.property('content-type').and.equal('application/json; charset=utf-8')
+                res.body.should.be.instanceof(Array).and.be.empty()
+                res.body.length.should.equal(0)
+                done()
+              })
+            })
+          })
+        })
+      })
+    })
+  })
+})

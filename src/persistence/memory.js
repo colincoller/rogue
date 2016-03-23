@@ -105,14 +105,14 @@ module.exports = function (options) {
       handler.totalMatches = (handler.totalMatches || 0) + 1
       callback(null)
     },
-    
+
     // DELETE /apps/:app_id/logs
     deleteLogs: function (appId, callback) {
       var app = this.apps[appId]
       if (!app) {
         return callback(new Error('App ' + appId + ' does not exist.'), null)
       }
-      app.logs = [];
+      app.logs = []
       callback(null)
     },
 

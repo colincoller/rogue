@@ -45,7 +45,11 @@ module.exports = function (api) {
           if (err) {
             api.sendServerError(res, err)
           } else {
-            api.sendCreated(res, app.url)
+            api.sendCreated(res, {
+              id: app.id,
+              url: app.url,
+              created: app.created
+            })
           }
         })
       }

@@ -77,8 +77,8 @@ module.exports = function (options, persistence) {
       res.status(204).send()
     },
 
-    sendCreated: function (res, url) {
-      res.status(201).location(url).json(url)
+    sendCreated: function (res, app) {
+      res.status(201).location(app.url).json(app)
     }
   }
 }

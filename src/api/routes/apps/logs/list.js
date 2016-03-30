@@ -8,7 +8,9 @@ module.exports = function (api) {
           if (err) {
             api.sendServerError(res, err)
           } else {
-            res.json(logs)
+            res.json({
+              items: logs
+            })
           }
         })
       }

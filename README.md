@@ -104,57 +104,59 @@ Your test can retrieve the app's logs with `GET /apps/:app_id/logs`:
 `curl http://localhost:8080/apps/40f7f6db-7e19-451f-8cd9-a6376cd9378b/logs`
 
 ```JSON
-[
-  {
-    "date": "2016-03-11T22:24:37.144Z",
-    "request": {
-      "protocol": "http",
-      "method": "POST",
-      "fullUrl": "/apps/d08a8a40-cd3a-4825-99e8-bf494280cdaa/test/users",
-      "relativeUrl": "/users",
-      "headers": {
-        "content-type": "application/json",
-        "host": "localhost:9300",
-        "accept": "application/json",
-        "content-length": "26",
-        "connection": "keep-alive"
+{
+  "items": [
+    {
+      "date": "2016-03-11T22:24:37.144Z",
+      "request": {
+        "protocol": "http",
+        "method": "POST",
+        "fullUrl": "/apps/d08a8a40-cd3a-4825-99e8-bf494280cdaa/test/users",
+        "relativeUrl": "/users",
+        "headers": {
+          "content-type": "application/json",
+          "host": "localhost:9300",
+          "accept": "application/json",
+          "content-length": "26",
+          "connection": "keep-alive"
+        },
+        "body": {
+          "username": "colincoller"
+        }
       },
-      "body": {
-        "username": "colincoller"
+      "handler": "on-create-user",
+      "response": {
+        "status": 201,
+        "headers": {
+          "Location": "/users/123"
+        },
+        "body": "/users/123"
       }
     },
-    "handler": "on-create-user",
-    "response": {
-      "status": 201,
-      "headers": {
-        "Location": "/users/123"
+    {
+      "date": "2016-03-11T22:24:37.154Z",
+      "request": {
+        "protocol": "http",
+        "method": "GET",
+        "fullUrl": "/apps/d08a8a40-cd3a-4825-99e8-bf494280cdaa/test/users/123",
+        "relativeUrl": "/users/123",
+        "headers": {
+          "content-type": "application/json",
+          "host": "localhost:9300",
+          "connection": "keep-alive"
+        },
+        "body": {}
       },
-      "body": "/users/123"
-    }
-  },
-  {
-    "date": "2016-03-11T22:24:37.154Z",
-    "request": {
-      "protocol": "http",
-      "method": "GET",
-      "fullUrl": "/apps/d08a8a40-cd3a-4825-99e8-bf494280cdaa/test/users/123",
-      "relativeUrl": "/users/123",
-      "headers": {
-        "content-type": "application/json",
-        "host": "localhost:9300",
-        "connection": "keep-alive"
-      },
-      "body": {}
-    },
-    "handler": "on-get-user",
-    "response": {
-      "status": 200,
-      "body": {
-        "username": "colincoller"
+      "handler": "on-get-user",
+      "response": {
+        "status": 200,
+        "body": {
+          "username": "colincoller"
+        }
       }
     }
-  }
-]
+  ]
+}
 ```
 
 Finally, your test can delete the app with `DELETE /apps/:app_id`:

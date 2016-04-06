@@ -38,11 +38,12 @@ var createApp = function (app, callback) {
   req.end(function (res) {
     res.status.should.equal(201)
     res.headers.should.have.property('content-type').and.equal('application/json; charset=utf-8')
-    res.headers.should.have.property('location').and.equal(res.body)
-
-    var appUrl = res.body
-    appUrl.split('/').length.should.equal(3)
-    var appId = appUrl.split('/')[2]
+    res.body.should.have.property('id')
+    res.body.should.have.property('url')
+    res.body.should.have.property('created')
+    res.headers.should.have.property('location').and.equal(res.body.url)
+    var appUrl = res.body.url
+    var appId = res.body.id
 
     req = unirest.get(baseUrl + appUrl)
     req.auth(options.username, options.password, true)

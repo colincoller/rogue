@@ -105,7 +105,7 @@ Your test can retrieve the app's logs with `GET /apps/:app_id/logs`:
 
 ```JSON
 {
-  "items": [
+  "data": [
     {
       "date": "2016-03-11T22:24:37.144Z",
       "request": {
@@ -421,57 +421,59 @@ This is _also_ useful when testing complex sequences of webhook calls where the 
 Rogue logs all requests to an app.  Each log entry includes the date the request was received, key request properties, the identifier of the handler that matched the request, and key response properties.  
 
 ```JSON
-[
-  {
-    "date": "2016-03-11T22:24:37.144Z",
-    "request": {
-      "protocol": "http",
-      "method": "POST",
-      "fullUrl": "/apps/d08a8a40-cd3a-4825-99e8-bf494280cdaa/test/users",
-      "relativeUrl": "/users",
-      "headers": {
-        "content-type": "application/json",
-        "host": "localhost:9300",
-        "accept": "application/json",
-        "content-length": "26",
-        "connection": "keep-alive"
+{
+  "data": [
+    {
+      "date": "2016-03-11T22:24:37.144Z",
+      "request": {
+        "protocol": "http",
+        "method": "POST",
+        "fullUrl": "/apps/d08a8a40-cd3a-4825-99e8-bf494280cdaa/test/users",
+        "relativeUrl": "/users",
+        "headers": {
+          "content-type": "application/json",
+          "host": "localhost:9300",
+          "accept": "application/json",
+          "content-length": "26",
+          "connection": "keep-alive"
+        },
+        "body": {
+          "username": "colincoller"
+        }
       },
-      "body": {
-        "username": "colincoller"
+      "handler": "on-create-user",
+      "response": {
+        "status": 201,
+        "headers": {
+          "Location": "/users/123"
+        },
+        "body": "/users/123"
       }
     },
-    "handler": "on-create-user",
-    "response": {
-      "status": 201,
-      "headers": {
-        "Location": "/users/123"
+    {
+      "date": "2016-03-11T22:24:37.154Z",
+      "request": {
+        "protocol": "http",
+        "method": "GET",
+        "fullUrl": "/apps/d08a8a40-cd3a-4825-99e8-bf494280cdaa/test/users/123",
+        "relativeUrl": "/users/123",
+        "headers": {
+          "content-type": "application/json",
+          "host": "localhost:9300",
+          "connection": "keep-alive"
+        },
+        "body": {}
       },
-      "body": "/users/123"
-    }
-  },
-  {
-    "date": "2016-03-11T22:24:37.154Z",
-    "request": {
-      "protocol": "http",
-      "method": "GET",
-      "fullUrl": "/apps/d08a8a40-cd3a-4825-99e8-bf494280cdaa/test/users/123",
-      "relativeUrl": "/users/123",
-      "headers": {
-        "content-type": "application/json",
-        "host": "localhost:9300",
-        "connection": "keep-alive"
-      },
-      "body": {}
-    },
-    "handler": "on-get-user",
-    "response": {
-      "status": 200,
-      "body": {
-        "username": "colincoller"
+      "handler": "on-get-user",
+      "response": {
+        "status": 200,
+        "body": {
+          "username": "colincoller"
+        }
       }
     }
-  }
-]
+  ]
+}
 ```
 
 Rogue logs in a single log for the app rather than a log for each handler.  This simplifies test scenarios where you want to assert that multiple webhook calls have been made in a particular order.

@@ -132,8 +132,8 @@ describe('api: POST /apps', function () {
       req.end(function (res) {
         res.status.should.equal(200)
         res.headers.should.have.property('content-type').and.equal('application/json; charset=utf-8')
-        res.body.should.have.keys('items')
-        res.body.items.should.be.instanceof(Array).and.be.empty()
+        res.body.should.have.keys('data')
+        res.body.data.should.be.instanceof(Array).and.be.empty()
         done()
       })
     })
@@ -159,10 +159,11 @@ describe('api: GET /apps', function () {
         req.end(function (res) {
           res.status.should.equal(200)
           res.headers.should.have.property('content-type').and.equal('application/json; charset=utf-8')
-          res.body.should.be.instanceof(Array).and.not.be.empty()
-          res.body.length.should.be.aboveOrEqual(2)
-          assertAppEquality(app2, res.body[0])
-          assertAppEquality(app1, res.body[1])
+          res.body.should.have.keys('data')
+          res.body.data.should.be.instanceof(Array).and.not.be.empty()
+          res.body.data.length.should.be.aboveOrEqual(2)
+          assertAppEquality(app2, res.body.data[0])
+          assertAppEquality(app1, res.body.data[1])
           done()
         })
       })
@@ -269,8 +270,8 @@ describe('api: GET /apps/:app_id/logs', function () {
       req.end(function (res) {
         res.status.should.equal(200)
         res.headers.should.have.property('content-type').and.equal('application/json; charset=utf-8')
-        res.body.should.have.keys('items')
-        res.body.items.should.be.instanceof(Array).and.be.empty()
+        res.body.should.have.keys('data')
+        res.body.data.should.be.instanceof(Array).and.be.empty()
         done()
       })
     })
@@ -287,8 +288,8 @@ describe('api: GET /apps/:app_id/logs', function () {
           req.end(function (res) {
             res.status.should.equal(200)
             res.headers.should.have.property('content-type').and.equal('application/json; charset=utf-8')
-            res.body.should.have.keys('items')
-            res.body.items.length.should.equal(2)
+            res.body.should.have.keys('data')
+            res.body.data.length.should.equal(2)
             // TODO: ensure the log entries are valid
             done()
           })
@@ -335,8 +336,8 @@ describe('api: * /apps/:app_id/test/*', function () {
           req.end(function (res) {
             res.status.should.equal(200)
             res.headers.should.have.property('content-type').and.equal('application/json; charset=utf-8')
-            res.body.should.have.keys('items')
-            res.body.items.length.should.equal(2)
+            res.body.should.have.keys('data')
+            res.body.data.length.should.equal(2)
             // TODO: ensure the log entries are valid
             done()
           })
@@ -356,8 +357,8 @@ describe('api: * /apps/:app_id/test/*', function () {
           req.end(function (res) {
             res.status.should.equal(200)
             res.headers.should.have.property('content-type').and.equal('application/json; charset=utf-8')
-            res.body.should.have.keys('items')
-            res.body.items.length.should.equal(2)
+            res.body.should.have.keys('data')
+            res.body.data.length.should.equal(2)
             // TODO: ensure the log entries are valid
             done()
           })
@@ -377,13 +378,13 @@ describe('api: * /apps/:app_id/test/*', function () {
           req.end(function (res) {
             res.status.should.equal(200)
             res.headers.should.have.property('content-type').and.equal('application/json; charset=utf-8')
-            res.body.should.have.keys('items')
-            res.body.items.length.should.equal(2)
+            res.body.should.have.keys('data')
+            res.body.data.length.should.equal(2)
 
             // Both requests should have matched on-get-user-1, but it has maxMatches = 1, so the
             // first request matched on-get-user-1 and the second request matched on-get-user-2.
-            res.body.items[0].handler.should.equal('on-get-user-1')
-            res.body.items[1].handler.should.equal('on-get-user-2')
+            res.body.data[0].handler.should.equal('on-get-user-1')
+            res.body.data[1].handler.should.equal('on-get-user-2')
 
             done()
           })
@@ -403,13 +404,13 @@ describe('api: * /apps/:app_id/test/*', function () {
           req.end(function (res) {
             res.status.should.equal(200)
             res.headers.should.have.property('content-type').and.equal('application/json; charset=utf-8')
-            res.body.should.have.keys('items')
-            res.body.items.length.should.equal(2)
+            res.body.should.have.keys('data')
+            res.body.data.length.should.equal(2)
 
             // Both requests should have matched on-get-user-1, but it has maxMatches = 1, so the
             // first request matched on-get-user-1 and the second request matched on-get-user-2.
-            res.body.items[0].handler.should.equal('on-get-user-1')
-            res.body.items[1].handler.should.equal('on-get-user-2')
+            res.body.data[0].handler.should.equal('on-get-user-1')
+            res.body.data[1].handler.should.equal('on-get-user-2')
 
             done()
           })
@@ -440,14 +441,14 @@ describe('api: * /apps/:app_id/test/*', function () {
           req.end(function (res) {
             res.status.should.equal(200)
             res.headers.should.have.property('content-type').and.equal('application/json; charset=utf-8')
-            res.body.should.have.keys('items')
-            res.body.items.length.should.equal(2)
+            res.body.should.have.keys('data')
+            res.body.data.length.should.equal(2)
 
             // Both requests should have matched on-get-user-1, but it has maxMatches = 1, so the
             // first request matched on-get-user-1 which has the delay and the second request
             // matched on-get-user-2 which doesn't.
-            res.body.items[0].handler.should.equal('on-get-user-1')
-            res.body.items[1].handler.should.equal('on-get-user-2')
+            res.body.data[0].handler.should.equal('on-get-user-1')
+            res.body.data[1].handler.should.equal('on-get-user-2')
 
             done()
           })
@@ -476,8 +477,8 @@ describe('api: DELETE /apps/:app_id/logs', function () {
           req.end(function (res) {
             res.status.should.equal(200)
             res.headers.should.have.property('content-type').and.equal('application/json; charset=utf-8')
-            res.body.should.have.keys('items')
-            res.body.items.length.should.equal(2)
+            res.body.should.have.keys('data')
+            res.body.data.length.should.equal(2)
             var req = unirest.delete(baseUrl + app.url + '/logs')
             req.auth(options.username, options.password, true)
             req.end(function (res) {
@@ -486,8 +487,8 @@ describe('api: DELETE /apps/:app_id/logs', function () {
               req.auth(options.username, options.password, true)
               req.end(function (res) {
                 res.headers.should.have.property('content-type').and.equal('application/json; charset=utf-8')
-                res.body.should.have.keys('items')
-                res.body.items.length.should.equal(0)
+                res.body.should.have.keys('data')
+                res.body.data.length.should.equal(0)
                 done()
               })
             })
